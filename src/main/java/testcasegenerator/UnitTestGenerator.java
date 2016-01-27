@@ -219,10 +219,9 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 		
 		for (CtAnnotation<?> annotation : m.getAnnotations()) {
 			if (annotation.getSignature().equals("@main.TestUnit")) {
-				//PARAMS
+				// DELETE PARAMS
 				params = annotation.getElementValue("params");
 				ArrayList<CtParameter<?>> tmpParameters = new ArrayList<CtParameter<?>>(); 
-				
 				for (CtParameter<?> p : m.getParameters()) {
 					tmpParameters.add(p);
 				}
@@ -230,9 +229,13 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				for (CtParameter<?> p : tmpParameters) {
 					m.removeParameter(p);
 				}
-				
+				// WHEN 
+				String when = annotation.getElementValue("when");
+				if(when.length() > 3) {
+					body += when + ";\n\t\t";
+				}
 				// ASSERT
-				body = "junit.framework.Assert.assertEquals(inst"+nameClasse+"."+m.getSimpleName()+"("+params+"),";
+				body += "junit.framework.Assert.assertEquals(inst"+nameClasse+"."+m.getSimpleName()+"("+params+"),";
 				oracle = annotation.getElementValue("oracle");
 				String[] initTab = oracle.split(",");
 				for (int i = 0; i <  initTab.length; i++) {
@@ -242,7 +245,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				}
 				body += ")";
 				
-				// withMock
+				// WITHMOCK
 				String[] withMock = annotation.getElementValue("withMock");
 				for (int i = 0; i < withMock.length; i++) {
 					String[] tmp = withMock[i].split(",");
@@ -362,7 +365,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 
 	public static void main(String[] args) throws Exception {
 		spoon.Launcher.main(new String[] {
-        		"-p", "testcasegenerator.CustomProcessor","-i",args[0],"-o", args[1]
+        		"-p", UnitTestGenerator.class.getCanonicalName(),"-i",args[0],"-o", args[1]
         });
 	}
 	

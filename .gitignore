@@ -3,3 +3,4 @@
 .settings/
 target/
 /projetTest/test
+*.DS_Store

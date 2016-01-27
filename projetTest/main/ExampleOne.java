@@ -15,7 +15,7 @@ public class ExampleOne {
         this.exampleMock = new main.ExampleTwo();
     }
 
-    @main.TestUnit(given = "1,2", oracle = "3")
+    @main.TestUnit(given = "1,2", oracle = "3" , when = "System.out.println('hello')")
     public int addition() {
         return (a) + (b);
     }

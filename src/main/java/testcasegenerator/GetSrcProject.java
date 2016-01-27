@@ -164,7 +164,7 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	
 	public static void main(String[] args) throws Exception {
 		spoon.Launcher.main(new String[] {
-        		"-p", "testcasegenerator.InterfaceProcessor","-i",args[0],"-o", args[1]
+        		"-p",  GetSrcProject.class.getCanonicalName(),"-i",args[0],"-o", args[1]
         });
 	}
 

@@ -8,6 +8,8 @@ public @interface TestUnit {
 
     java.lang.String oracle() default "";
 
+    java.lang.String when() default "";
+
     java.lang.String[] withMock() default { "" };
 }
 
