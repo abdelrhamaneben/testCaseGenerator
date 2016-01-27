@@ -63,8 +63,6 @@ public class CustomProcessor extends AbstractProcessor<CtClass<?>> {
 				snippet.setValue("return null");
 				emptyBlock.insertBegin(snippet);
 				m.setBody(emptyBlock);
-				
-
 			}
 		}
 	}
@@ -196,7 +194,7 @@ public class CustomProcessor extends AbstractProcessor<CtClass<?>> {
 		String body = "inst"+nameClasse+" = new "+nameClasse+"(";
 		String stringParam = "";
 		if (m.getAnnotations().get(0).getSignature().equals("@main.TestUnit")) {
-			stringParam = m.getAnnotations().get(0).getElementValue("init");
+			stringParam = m.getAnnotations().get(0).getElementValue("given");
 			String[] initTab = stringParam.split(",");
 			for (int i = 0; i <  initTab.length; i++) {
 				body += initTab[i];
@@ -244,14 +242,13 @@ public class CustomProcessor extends AbstractProcessor<CtClass<?>> {
 				}
 				body += ")";
 				
-				// WHEN
-				String[] when = annotation.getElementValue("when");
-				for (int i = 0; i < when.length; i++) {
-					String[] tmp = when[i].split(",");
+				// withMock
+				String[] withMock = annotation.getElementValue("withMock");
+				for (int i = 0; i < withMock.length; i++) {
+					String[] tmp = withMock[i].split(",");
 					if (tmp.length > 1) 
 					body = "org.mockito.Mockito.when("+tmp[0]+").thenReturn("+tmp[1]+");\n\t\t" + body;
 				}
-				
 			}
 		}
 		return body;
@@ -367,10 +364,6 @@ public class CustomProcessor extends AbstractProcessor<CtClass<?>> {
 		spoon.Launcher.main(new String[] {
         		"-p", "testcasegenerator.CustomProcessor","-i",args[0],"-o", args[1]
         });
-		
-//		spoon.Launcher.main(new String[] {
-//        		"-p", "spoon.CustomProcessor","-i","exampleProject/main","-o", "test"
-//        });
 	}
 	
 }
