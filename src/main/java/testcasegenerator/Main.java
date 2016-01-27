@@ -18,8 +18,8 @@ public class Main {
 			System.out.println("Usage :\njava -jar testCaseGenerator PATH\n\t- PATH : the path to the source folder");
 		}
 		else {
-			InterfaceProcessor.main(args);
-			CustomProcessor.main(args);
+			GetSrcProject.main(args);
+			UnitTestGenerator.main(args);
 			File testUnitAnnotation = new File("test/main/TestUnit.java");
 			if (testUnitAnnotation.exists()) {
 				testUnitAnnotation.delete();

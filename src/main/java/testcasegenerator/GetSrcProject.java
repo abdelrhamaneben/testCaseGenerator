@@ -22,7 +22,7 @@ import spoon.reflect.reference.CtTypeReference;
  * @author Edmond Van-overtveldt
  * @author Jérà´me Garcia
  */
-public class InterfaceProcessor extends AbstractProcessor<CtClass<?>> {
+public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	
 	/**
 	 * Cette méthode récupà¨re la liste des nouveaux types créés

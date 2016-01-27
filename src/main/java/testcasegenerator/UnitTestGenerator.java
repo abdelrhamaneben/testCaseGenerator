@@ -28,7 +28,7 @@ import spoon.reflect.reference.CtTypeReference;
  * @author Edmond Van-overtveldt
  * @author Jérà´me Garcia
  */
-public class CustomProcessor extends AbstractProcessor<CtClass<?>> {
+public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 	
 	/**
 	 *  Cette méthode supprime toutes les méthodes de la classe créée.
