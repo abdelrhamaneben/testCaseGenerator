@@ -296,7 +296,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				addAnnotation(m,"org.junit.Test");
 				
 				// Modification du type de retour ainsi que du nom de la méthode
-				m.setSimpleName("test"+m.getSimpleName().substring(0, 1).toUpperCase()+m.getSimpleName().substring(1, m.getSimpleName().length()));
+				m.setSimpleName("testcase_"+m.getSimpleName().substring(0, 1).toUpperCase()+m.getSimpleName().substring(1, m.getSimpleName().length()));
 				CtTypeReference voidType = getFactory().Type().VOID_PRIMITIVE;
 				m.setType(voidType);
 				
@@ -325,7 +325,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				String nameClass = classe.getSimpleName();
 				
 				// Changer nom du fichier créé :
-				classe.setSimpleName("Test"+nameClass);
+				classe.setSimpleName("TestCase_"+nameClass);
 				
 				// suppression des attributs
 				setAttributesClasseTest(classe);

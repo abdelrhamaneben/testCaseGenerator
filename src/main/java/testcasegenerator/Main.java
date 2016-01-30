@@ -18,13 +18,12 @@ public class Main {
 			System.out.println("Usage :\njava -jar testCaseGenerator PATH\n\t- PATH : the path to the source folder");
 		}
 		else {
+			TestLauncher launcher = new TestLauncher();
+			launcher.init(args[1]);
+			args[1] = launcher.tmpFolder;
 			GetSrcProject.main(args);
-			UnitTestGenerator.main(args);
-			File testUnitAnnotation = new File("test/main/TestUnit.java");
-			if (testUnitAnnotation.exists()) {
-				testUnitAnnotation.delete();
-			}
-				
+			//UnitTestGenerator.main(args);
+			//launcher.run();
 			System.out.println("Tests created in \"test/\"");
 		}
 	}

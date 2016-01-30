@@ -1,13 +1,16 @@
 package testcasegenerator;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import spoon.processing.AbstractProcessor;
+import spoon.reflect.declaration.CtAnnotation;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtConstructor;
+import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtField;
 import spoon.reflect.declaration.CtInterface;
 import spoon.reflect.declaration.CtMethod;
@@ -135,11 +138,9 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 
 					CtTypeReference typeRef = getFactory().Type().createReference("I"+attribut.getType().getSimpleName()); 
 					
-					
 					for (CtConstructor<?> c : classe.getConstructors()) {
 						for (CtParameter<?> param : c.getParameters()) {
 							if (param.getType().getSimpleName().equals(attribut.getType().getSimpleName())) {
-								
 								param.setType(typeRef);
 							}
 						}
@@ -151,7 +152,6 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 								param.setType(typeRef);
 							}
 						}
-
 						if (m.getType().getSimpleName().equals(attribut.getType().getSimpleName())) {
 							m.setType(typeRef);
 						}
@@ -159,6 +159,26 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 					attribut.setType(typeRef);
 				}
 			} 
+		}
+		deleteAnnotation(classe);
+		for(CtMethod m : classe.getAllMethods()) {
+			deleteAnnotation(m);
+		}
+	}
+	
+	/**
+	 * @param element
+	 *
+	 */
+	public void deleteAnnotation(CtElement element){
+		ArrayList<CtAnnotation<?>> tmpAnnotationList = new ArrayList<CtAnnotation<?>>();
+		
+		for (CtAnnotation<?> a : element.getAnnotations()) {
+			tmpAnnotationList.add(a);
+		}
+		
+		for (CtAnnotation<?> a : tmpAnnotationList) {
+			element.removeAnnotation(a);
 		}
 	}
 	
