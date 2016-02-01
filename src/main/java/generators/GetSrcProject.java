@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import models.Constants;
 import spoon.processing.AbstractProcessor;
 import spoon.reflect.declaration.CtAnnotation;
 import spoon.reflect.declaration.CtClass;
@@ -184,7 +185,7 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	
 	public static void main(String[] args) throws Exception {
 		spoon.Launcher.main(new String[] {
-				"--compile","-p",  GetSrcProject.class.getCanonicalName(),"-i",args[0],"-o", args[1] , "-d" , args[1]
+				"--compile","-p",  GetSrcProject.class.getCanonicalName(),"-i",Constants.source,"-o", Constants.tmpFolder , "-d" , Constants.tmpFolder
         });
 	}
 

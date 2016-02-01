@@ -16,6 +16,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 import exceptions.UnTestableException;
+import models.Constants;
 
 /**
  * 
@@ -24,19 +25,14 @@ import exceptions.UnTestableException;
  */
 public class TestLauncher {
 	
-	public static final String tmpFolder = ".tmpProject/";
-	public String project;
 	
-	public String COMPILER_PATH;
 	private URLClassLoader classLoader;
 	/**
 	 * Remise à Zero du dossier temporaire
 	 * @throws UnTestableException
 	 */
-	public void init(String compiler,String project) throws UnTestableException {
+	public void init() throws UnTestableException {
 		try {
-			COMPILER_PATH = compiler;
-			this.project = project;
 			this.resetTmpFolder();
 		} catch (Exception e) {
 			throw new UnTestableException(e.getLocalizedMessage());
@@ -49,7 +45,7 @@ public class TestLauncher {
 	 * @throws IOException
 	 */
 	private void resetTmpFolder() throws SecurityException, IOException{
-		File theDir = new File(tmpFolder);
+		File theDir = new File(Constants.tmpFolder);
 		// if the directory does not exist, create it
 		if (!theDir.exists()) {
 			theDir.mkdir();
@@ -102,27 +98,26 @@ public class TestLauncher {
 		try {
 			JUnitCore junit = new JUnitCore();
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-			List<String> listTestFiles = findJavaFiles(this.tmpFolder , true);
-			List<String> listSourceFiles = findJavaFiles(this.tmpFolder , false);
+			List<String> listTestFiles = findJavaFiles(Constants.tmpFolder , true);
+			List<String> listSourceFiles = findJavaFiles(Constants.tmpFolder, false);
 	
 			
 			for(String file : listTestFiles) {
-				compiler.run(null, null, null, "-cp", "/Users/abdelrhamanebenhammou/workspace/testCaseGenerator/lib/mockito-1.8.0.jar:/Users/abdelrhamanebenhammou/workspace/testCaseGenerator/lib/junit-4.12.jar:"+ this.tmpFolder, file);
+				compiler.run(null, null, null, "-cp", Constants.mockito+":"+Constants.junit+":"+ Constants.tmpFolder, file);
 			}
 			
 			classLoader = URLClassLoader.newInstance(new URL[] {
-					new File(this.tmpFolder ).toURI().toURL(), new File(this.COMPILER_PATH).toURI().toURL()
+					new File(Constants.tmpFolder ).toURI().toURL(), new File(Constants.lib).toURI().toURL()
 			});
 	      
 	  		for(String file : listSourceFiles) {
-	  			System.out.println(file);
 	  			Class.forName(convertToClassName(file), true, classLoader);
 	  		}
 	    	
 	  		for(String file : listTestFiles){
 	  			
 	  			Result results = junit.run(Class.forName(convertToClassName(file), true, classLoader));
-	  			System.out.println(results.getFailures().size());
+	  			System.out.println(file + ", Failures : " +results.getFailures().size());
 	  		}
 	       }
 	       catch(Exception e) {

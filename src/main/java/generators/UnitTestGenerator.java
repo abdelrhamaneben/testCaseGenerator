@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+import models.Constants;
 import spoon.processing.AbstractProcessor;
 import spoon.reflect.code.CtBlock;
 import spoon.reflect.code.CtCodeSnippetStatement;
@@ -375,7 +375,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 
 	public static void main(String[] args) throws Exception {
 		spoon.Launcher.main(new String[] {
-				"-p",  UnitTestGenerator.class.getCanonicalName(),"-i",args[0] , "-o" , args[1]
+				"-p",  UnitTestGenerator.class.getCanonicalName(),"-i",Constants.source , "-o" , Constants.tmpFolder
         });
 	}
 	
