@@ -1,5 +1,6 @@
 package generators;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,6 +30,8 @@ import spoon.reflect.reference.CtTypeReference;
  * @author Jérà´me Garcia
  */
 public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
+	
+	public static ArrayList<String> classtoremove = new ArrayList<String>();
 	
 	/**
 	 *  Cette méthode supprime toutes les méthodes de la classe créée.
@@ -323,6 +326,11 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 		classe.setSimpleName("TestCase_"+nameClass);
 		ArrayList<CtAnnotation<?>> tmpAnnotationList = new ArrayList<CtAnnotation<?>>();
 		
+		if(classe.getAnnotations().isEmpty()) {
+			classtoremove.add(classe.getSimpleName());
+			return;
+		}
+		
 		for (CtAnnotation<?> a : classe.getAnnotations()) {
 			tmpAnnotationList.add(a);
 		}
@@ -372,6 +380,23 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 		spoon.Launcher.main(new String[] {
 				"-p",  UnitTestGenerator.class.getCanonicalName(),"-i",Constants.source , "-o" , Constants.tmpFolder
         });
+		
+		for(String file : classtoremove) {
+			findandremove(Constants.tmpFolder,file);
+		}
+	}
+	public static boolean findandremove(String folder, String file) {
+		File parent = new File(folder);
+		for(File f : parent.listFiles()) {
+			if(f.getName().contains(file)) {
+				f.delete();
+				return true;
+			}
+			else if(f.isDirectory()){
+				 return findandremove(f.getAbsolutePath(), file);
+			}
+		}
+		return false;
 	}
 	
 }
