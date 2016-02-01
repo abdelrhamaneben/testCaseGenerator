@@ -1,4 +1,4 @@
-package testcasegenerator;
+package generators;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package testcasegenerator;
+package controlers;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
-import testcasegenerator.exceptions.UnTestableException;
+import exceptions.UnTestableException;
 
 /**
  * 
@@ -107,24 +107,23 @@ public class TestLauncher {
 	
 			
 			for(String file : listTestFiles) {
-				System.out.println(file);
 				compiler.run(null, null, null, "-cp", "/Users/abdelrhamanebenhammou/workspace/testCaseGenerator/lib/mockito-1.8.0.jar:/Users/abdelrhamanebenhammou/workspace/testCaseGenerator/lib/junit-4.12.jar:"+ this.tmpFolder, file);
 			}
 			
 			classLoader = URLClassLoader.newInstance(new URL[] {
-					new File(this.project ).toURI().toURL(), new File(this.COMPILER_PATH).toURI().toURL()
+					new File(this.tmpFolder ).toURI().toURL(), new File(this.COMPILER_PATH).toURI().toURL()
 			});
 	      
 	  		for(String file : listSourceFiles) {
 	  			System.out.println(file);
-	  			//Class.forName(convertToClassName(file), true, classLoader);
+	  			Class.forName(convertToClassName(file), true, classLoader);
 	  		}
-	    	/* 
+	    	
 	  		for(String file : listTestFiles){
 	  			
 	  			Result results = junit.run(Class.forName(convertToClassName(file), true, classLoader));
 	  			System.out.println(results.getFailures().size());
-	  		}*/
+	  		}
 	       }
 	       catch(Exception e) {
 	    	  e.printStackTrace();
