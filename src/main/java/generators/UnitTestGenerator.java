@@ -49,20 +49,14 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 		for (CtMethod<?> m : test) {
 
 			if (m.getAnnotations().size() == 0) {
-				System.out.println("méthode :"+m.getSimpleName());
 				classe.removeMethod(m);
 			}
 			else {
-				System.out.println("méthode :"+m.getSimpleName()+" "+m.getAnnotations().getClass());
+				
 				m.setSimpleName("test"+m.getSimpleName());
 				List<CtAnnotation<?>> emptyListAnnotation = new ArrayList<CtAnnotation<?>>();
 				m.setAnnotations(emptyListAnnotation);
-				
-				CtBlock emptyBlock = getFactory().Core().createBlock();
-				CtCodeSnippetStatement snippet = getFactory().Core().createCodeSnippetStatement();
-				snippet.setValue("return null");
-				emptyBlock.insertBegin(snippet);
-				m.setBody(emptyBlock);
+				voidMethod(m);
 			}
 		}
 	}
