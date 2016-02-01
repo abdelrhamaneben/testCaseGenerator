@@ -14,6 +14,7 @@ import javax.tools.ToolProvider;
 import org.apache.commons.io.FileUtils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 
 import exceptions.UnTestableException;
 import models.Constants;
@@ -93,8 +94,9 @@ public class TestLauncher {
 		return pathToSources;
 	}
 	
-	public void run() throws UnTestableException {
+	public ArrayList<Result> run() throws UnTestableException {
 
+		ArrayList<Result> results = new ArrayList();
 		try {
 			JUnitCore junit = new JUnitCore();
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -115,15 +117,15 @@ public class TestLauncher {
 	  		}
 	    	
 	  		for(String file : listTestFiles){
-	  			
-	  			Result results = junit.run(Class.forName(convertToClassName(file), true, classLoader));
-	  			System.out.println(file + ", Failures : " +results.getFailures().size());
+	  			Result result = junit.run(Class.forName(convertToClassName(file), true, classLoader));
+	  			results.add(result);
 	  		}
 	       }
 	       catch(Exception e) {
 	    	  e.printStackTrace();
 	    	  throw new UnTestableException(e.getLocalizedMessage());
 	       }
+		return results;
 	}
 
 }

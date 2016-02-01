@@ -7,3 +7,6 @@ target/
 .tmpProject/
 lib/
 spooned/
+failure.csv
+log.txt
+*~

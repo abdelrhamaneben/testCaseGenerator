@@ -357,8 +357,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				addField(classe, smk, testType, "inst"+nameClass);
 				
 				// ajout d'une méthode
-				String mockitoInitMocks = "org.mockito.MockitoAnnotations.initMocks(this)";
-				addMethod(classe, smk, getFactory().Type().VOID_PRIMITIVE, "setUp", mockitoInitMocks);
+				
 				
 				// Recherche de la méthode "setup" et ajout de l'annotation
 				for (CtMethod<?> m : classe.getAllMethods()) {
@@ -369,6 +368,8 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				
 				// modification du contenu des méthodes annotées
 				setBodyClass(classe,nameClass);
+				String mockitoInitMocks = "org.mockito.MockitoAnnotations.initMocks(this)";
+				addMethod(classe, smk, getFactory().Type().VOID_PRIMITIVE, "setUp", mockitoInitMocks);
 			}
 		}
 	}
