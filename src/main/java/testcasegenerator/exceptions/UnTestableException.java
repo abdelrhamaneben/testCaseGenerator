@@ -1,4 +1,4 @@
-package UnTestableException;
+package testcasegenerator.exceptions;
 
 public class UnTestableException extends Exception{
 	public UnTestableException(String msg) {

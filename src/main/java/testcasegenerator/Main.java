@@ -1,6 +1,8 @@
 package testcasegenerator;
 import java.io.File;
 
+import spoon.Launcher;
+
 /**
  * @author Julia Leven
  * @author Edmond Van-overtveldt
@@ -15,15 +17,15 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		
 		if (args.length < 1) {
-			System.out.println("Usage :\njava -jar testCaseGenerator PATH\n\t- PATH : the path to the source folder");
+			System.out.println("Usage :\njava -jar testCaseGenerator Project_Path  JunitJar_Path\n");
 		}
 		else {
-			TestLauncher launcher = new TestLauncher();
-			launcher.init(args[1]);
-			args[1] = launcher.tmpFolder;
+			TestLauncher tester = new TestLauncher();
+			tester.init(args[1],args[0]);
+			args[1] = tester.tmpFolder;
 			GetSrcProject.main(args);
-			//UnitTestGenerator.main(args);
-			//launcher.run();
+			UnitTestGenerator.main(args);
+			tester.run();
 			System.out.println("Tests created in \"test/\"");
 		}
 	}

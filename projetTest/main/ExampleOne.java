@@ -7,7 +7,7 @@ public class ExampleOne {
 
     private int b;
 
-    private ExampleTwo exampleMock;
+    private main.ExampleTwo exampleMock;
 
     public ExampleOne(int a ,int b) {
         this.a = a;
@@ -15,13 +15,13 @@ public class ExampleOne {
         this.exampleMock = new main.ExampleTwo();
     }
 
-    @main.TestUnit(given = "1,2", oracle = "3" , when = "System.out.println('hello')")
+    @main.TestUnit(given = "1,2", oracle = "3" , when = "System.out.println(\"hello\")")
     public int addition() {
         return (a) + (b);
     }
 
     public int getTwo() {
-        return 2;
+       return a + b;
     }
 
     @main.TestUnit(given = "3,1", oracle = "2")

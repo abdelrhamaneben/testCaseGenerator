@@ -15,7 +15,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
-import UnTestableException.UnTestableException;
+import testcasegenerator.exceptions.UnTestableException;
 
 /**
  * 
@@ -25,6 +25,7 @@ import UnTestableException.UnTestableException;
 public class TestLauncher {
 	
 	public static final String tmpFolder = ".tmpProject/";
+	public String project;
 	
 	public String COMPILER_PATH;
 	private URLClassLoader classLoader;
@@ -32,9 +33,10 @@ public class TestLauncher {
 	 * Remise à Zero du dossier temporaire
 	 * @throws UnTestableException
 	 */
-	public void init(String compiler) throws UnTestableException {
+	public void init(String compiler,String project) throws UnTestableException {
 		try {
 			COMPILER_PATH = compiler;
+			this.project = project;
 			this.resetTmpFolder();
 		} catch (Exception e) {
 			throw new UnTestableException(e.getLocalizedMessage());
@@ -84,13 +86,11 @@ public class TestLauncher {
 		for(File f : files){
 			if(f.isDirectory())
 				pathToSources.addAll(findJavaFiles(f.getAbsolutePath(), test));
-			else if((f.getName().contains("TestCase_") && test)) {
+			else if((f.getName().contains("TestCase") && test && f.getName().endsWith(".java"))) {
 				pathToSources.add(f.getAbsolutePath());
-				System.out.println("Non Test : " + f.getAbsolutePath());
 			}
-			else if((!f.getName().contains("TestCase_") && !test)) {
+			else if((!f.getName().contains("TestCase") && !test && f.getName().endsWith(".java"))) {
 				pathToSources.add(f.getAbsolutePath());
-				System.out.println("Non Test : " + f.getAbsolutePath());
 			}
 				
 		}
@@ -102,30 +102,29 @@ public class TestLauncher {
 		try {
 			JUnitCore junit = new JUnitCore();
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-			
-			List<String> listSourceFiles = findJavaFiles(this.tmpFolder ,false);
 			List<String> listTestFiles = findJavaFiles(this.tmpFolder , true);
+			List<String> listSourceFiles = findJavaFiles(this.tmpFolder , false);
 	
-			for(String file : listSourceFiles){
-					System.out.println(file);
-					compiler.run(null, null, null, file);
-			}
+			
 			for(String file : listTestFiles) {
 				System.out.println(file);
-				compiler.run(null, null, null, "-cp",  this.COMPILER_PATH +":" + this.tmpFolder, file);
+				compiler.run(null, null, null, "-cp", "/Users/abdelrhamanebenhammou/workspace/testCaseGenerator/lib/mockito-1.8.0.jar:/Users/abdelrhamanebenhammou/workspace/testCaseGenerator/lib/junit-4.12.jar:"+ this.tmpFolder, file);
 			}
 			
 			classLoader = URLClassLoader.newInstance(new URL[] {
-					new File(this.tmpFolder ).toURI().toURL()
+					new File(this.project ).toURI().toURL(), new File(this.COMPILER_PATH).toURI().toURL()
 			});
 	      
-	  		for(String file : listSourceFiles)
-	    		  Class.forName(convertToClassName(file), true, classLoader);
+	  		for(String file : listSourceFiles) {
+	  			System.out.println(file);
+	  			//Class.forName(convertToClassName(file), true, classLoader);
+	  		}
+	    	/* 
 	  		for(String file : listTestFiles){
 	  			
 	  			Result results = junit.run(Class.forName(convertToClassName(file), true, classLoader));
 	  			System.out.println(results.getFailures().size());
-	  		}
+	  		}*/
 	       }
 	       catch(Exception e) {
 	    	  e.printStackTrace();

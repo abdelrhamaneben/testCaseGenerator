@@ -4,3 +4,6 @@
 target/
 /projetTest/test
 *.DS_Store
+.tmpProject/
+lib/
+spooned/

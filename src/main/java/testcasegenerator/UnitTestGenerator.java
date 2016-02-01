@@ -191,7 +191,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 	 * @return une chaà®ne de caractà¨re permettant d'initialiser l'objet à  tester
 	 */
 	public String initConstructor(String nameClasse,CtMethod<?> m) {
-		String body = "inst"+nameClasse+" = new "+nameClasse+"(";
+		String body = nameClasse + " inst"+nameClasse+" = new "+nameClasse+"(";
 		String stringParam = "";
 		if (m.getAnnotations().get(0).getSignature().equals("@main.TestUnit")) {
 			stringParam = m.getAnnotations().get(0).getElementValue("given");
@@ -271,15 +271,17 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 	}
 	
 	/**
+	 *  A REVOIR NE SUPPRIME PAS TOUTE LES METHODES INUTILES
 	 * Cette méthode supprime toutes les méthodes qui ne doivent pas àªtre testée de la classe créée 
 	 * et change le contenu des méthodes qui doivent àªtre testée.
 	 * @param classe la classe de tests
 	 * @param le nom de la classe à  tester
-	 * @return la liste des méthodes qui devront àªtre testées
+	 * @return la liste des méthodes qui devront être testées
 	 */
 	public Set<CtMethod<?>> setBodyClass(CtClass<?> classe, String nameClassTest) {
-		// On récupà¨re toutes les méthodes
+		// On récupère toutes les méthodes
 		Set<CtMethod<?>> methodsStart = classe.getMethods();
+		
 		ArrayList<CtMethod<?>> test = new ArrayList<CtMethod<?>>();
 		
 		for (CtMethod<?> m : methodsStart) {
@@ -302,16 +304,29 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				
 			// Pas d'annotation : ce n'est pas une méthode  à  tester 
 			} else {
+				voidMethod(m);
 				classe.removeMethod(m);
 			}
 		}
 		return methodsStart;
 	}
+	
+	public void voidMethod(CtMethod m) {
+		CtBlock emptyBlock = getFactory().Core().createBlock();
+		CtCodeSnippetStatement snippet = getFactory().Core().createCodeSnippetStatement();
+		snippet.setValue("");
+		emptyBlock.insertBegin(snippet);
+		m.setBody(emptyBlock);
+	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void process(CtClass<?> classe) {
 		classe.getFactory().getEnvironment().setAutoImports(true);
-		
+		String nameClass = classe.getSimpleName();
+		classe.setSimpleName("TestCase_"+nameClass);
 		ArrayList<CtAnnotation<?>> tmpAnnotationList = new ArrayList<CtAnnotation<?>>();
 		
 		for (CtAnnotation<?> a : classe.getAnnotations()) {
@@ -321,11 +336,6 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 		for (CtAnnotation<?> annotation : tmpAnnotationList) {
 			if (annotation.getSignature().equals("@main.TestUnit")) {
 				classe.removeAnnotation(annotation);
-				// Récupération du nom de la classe que l'on souhaite tester
-				String nameClass = classe.getSimpleName();
-				
-				// Changer nom du fichier créé :
-				classe.setSimpleName("TestCase_"+nameClass);
 				
 				// suppression des attributs
 				setAttributesClasseTest(classe);
@@ -348,7 +358,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				
 				// ajout d'une méthode
 				String mockitoInitMocks = "org.mockito.MockitoAnnotations.initMocks(this)";
-				addMethod(classe, smk, getFactory().Type().VOID, "setUp", mockitoInitMocks);
+				addMethod(classe, smk, getFactory().Type().VOID_PRIMITIVE, "setUp", mockitoInitMocks);
 				
 				// Recherche de la méthode "setup" et ajout de l'annotation
 				for (CtMethod<?> m : classe.getAllMethods()) {
@@ -365,7 +375,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 
 	public static void main(String[] args) throws Exception {
 		spoon.Launcher.main(new String[] {
-        		"-p", UnitTestGenerator.class.getCanonicalName(),"-i",args[0],"-o", args[1]
+				"-p",  UnitTestGenerator.class.getCanonicalName(),"-i",args[0] , "-o" , args[1]
         });
 	}
 	

@@ -67,7 +67,7 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	 * @param classe  : la classe dans laquelle on ajoute "implements"
 	 */
 	public void implementsInterface(CtClass<?> classe) {
-		String nameInterface = "I"+classe.getSimpleName();
+		String nameInterface = classe.getSimpleName();
 		CtInterface<?> newInterface = getFactory().Core().createInterface();
 		newInterface.setSimpleName(nameInterface);
 		Set<CtTypeReference<?>> setInterface = new HashSet<CtTypeReference<?>>();
@@ -99,7 +99,7 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	 * @param pck
 	 */
 	public void createInterface(CtClass<?> classe, ModifierKind modifier, CtPackage pck) {
-		String nameInterface = "I"+classe.getSimpleName();
+		String nameInterface = classe.getSimpleName();
 		
 		//Création de l'interface
 		CtInterface<?> newItf = getFactory().Core().createInterface();
@@ -119,7 +119,7 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	public void createAndImplementsInterface(CtField<?> attribut) {
 		CtClass<?> classeImplem = getFactory().Class().get(attribut.getType().getQualifiedName());
 		createInterface(classeImplem, ModifierKind.PUBLIC, classeImplem.getPackage());
-		implementsInterface(classeImplem);
+		//implementsInterface(classeImplem);
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 				if (listType.contains(attribut.getType())) {
 					createAndImplementsInterface(attribut);
 
-					CtTypeReference typeRef = getFactory().Type().createReference("I"+attribut.getType().getSimpleName()); 
+					CtTypeReference typeRef = getFactory().Type().createReference(attribut.getType().getSimpleName()); 
 					
 					for (CtConstructor<?> c : classe.getConstructors()) {
 						for (CtParameter<?> param : c.getParameters()) {
@@ -184,7 +184,7 @@ public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	
 	public static void main(String[] args) throws Exception {
 		spoon.Launcher.main(new String[] {
-        		"-p",  GetSrcProject.class.getCanonicalName(),"-i",args[0],"-o", args[1]
+				"--compile","-p",  GetSrcProject.class.getCanonicalName(),"-i",args[0],"-o", args[1] , "-d" , args[1]
         });
 	}
 
