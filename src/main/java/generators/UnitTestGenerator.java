@@ -216,6 +216,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 		
 		for (CtAnnotation<?> annotation : m.getAnnotations()) {
 			if (annotation.getSignature().equals("@main.TestUnit")) {
+				System.out.println( annotation.getElementValue("oracle").toString());
 				// DELETE PARAMS
 				params = annotation.getElementValue("params");
 				ArrayList<CtParameter<?>> tmpParameters = new ArrayList<CtParameter<?>>(); 

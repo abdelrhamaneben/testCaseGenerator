@@ -32,6 +32,30 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		try {
+			
+			for(String arg : args){
+				if(arg.equalsIgnoreCase("--config")) {
+					FileManager.writeConfig();
+					System.out.println(Constants.configMessage);
+					System.exit(0);
+				}
+				else if (arg.equalsIgnoreCase("--annotation")) {
+					FileManager.writeUnitTestClass();
+					System.out.println(Constants.annotationMessage);
+					System.exit(0);
+				}
+				else if (arg.equalsIgnoreCase("--init")) {
+					FileManager.writeUnitTestClass();
+					FileManager.writeConfig();
+					System.out.println(Constants.helpMessage);
+					System.exit(0);
+				}
+				else if (arg.equalsIgnoreCase("--help")) {
+					System.out.println(Constants.helpMessage);
+					System.exit(0);
+				}
+			}
+			
 			// -------- Gestion du fichier de config
 			Properties prop = new Properties();
 			InputStream input = new FileInputStream(Constants.config_file);
