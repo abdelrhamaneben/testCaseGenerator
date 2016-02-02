@@ -231,8 +231,15 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				if(when.length() > 3) {
 					body += when + ";\n\t\t";
 				}
+				String actual = annotation.getElementValue("actual");
+				
 				// ASSERT
-				body += "junit.framework.Assert.assertEquals(instance."+m.getSimpleName()+"("+params+"),";
+				if(!actual.isEmpty()){
+					body += "junit.framework.Assert.assertEquals("+actual+",";
+				}else {
+					body += "junit.framework.Assert.assertEquals(instance."+m.getSimpleName()+"("+params+"),";
+				}
+				
 				oracle = annotation.getElementValue("oracle");
 				String[] initTab = oracle.split(",");
 				for (int i = 0; i <  initTab.length; i++) {
