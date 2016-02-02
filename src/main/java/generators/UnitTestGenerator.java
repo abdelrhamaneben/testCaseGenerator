@@ -188,7 +188,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 	 * @return une chaà®ne de caractà¨re permettant d'initialiser l'objet à  tester
 	 */
 	public String initConstructor(String nameClasse,CtMethod<?> m) {
-		String body = nameClasse + " inst"+nameClasse+" = new "+nameClasse+"(";
+		String body = nameClasse + " instance = new "+nameClasse+"(";
 		String stringParam = "";
 		if (m.getAnnotations().get(0).getSignature().equals("@main.TestUnit")) {
 			stringParam = m.getAnnotations().get(0).getElementValue("given");
@@ -232,7 +232,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 					body += when + ";\n\t\t";
 				}
 				// ASSERT
-				body += "junit.framework.Assert.assertEquals(inst"+nameClasse+"."+m.getSimpleName()+"("+params+"),";
+				body += "junit.framework.Assert.assertEquals(instance."+m.getSimpleName()+"("+params+"),";
 				oracle = annotation.getElementValue("oracle");
 				String[] initTab = oracle.split(",");
 				for (int i = 0; i <  initTab.length; i++) {
@@ -356,7 +356,7 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 				CtTypeParameterReference testType = getFactory().Type().createTypeParameterReference(nameClass);
 				
 				// ajout d'un attribut
-				addField(classe, smk, testType, "inst"+nameClass);
+				addField(classe, smk, testType, "instance");
 				
 				// ajout d'une méthode
 				

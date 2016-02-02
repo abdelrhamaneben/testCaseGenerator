@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.tools.JavaCompiler;
@@ -94,9 +96,9 @@ public class TestLauncher {
 		return pathToSources;
 	}
 	
-	public ArrayList<Result> run() throws UnTestableException {
+	public Map<String , Result> run() throws UnTestableException {
 
-		ArrayList<Result> results = new ArrayList();
+		Map<String, Result> results = new HashMap();
 		try {
 			JUnitCore junit = new JUnitCore();
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -118,7 +120,7 @@ public class TestLauncher {
 	    	
 	  		for(String file : listTestFiles){
 	  			Result result = junit.run(Class.forName(convertToClassName(file), true, classLoader));
-	  			results.add(result);
+	  			results.put(file, result);
 	  		}
 	       }
 	       catch(Exception e) {

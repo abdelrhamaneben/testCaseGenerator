@@ -2,6 +2,8 @@ package controlers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import generators.GetSrcProject;
 import generators.UnitTestGenerator;
@@ -10,6 +12,8 @@ import models.FileManager;
 import spoon.Launcher;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 
 import org.junit.runner.Result;
@@ -49,27 +53,44 @@ public class Main {
 			tester.init();
 			GetSrcProject.main(args);
 			UnitTestGenerator.main(args);
-			ArrayList<Result> results = tester.run();
+			Map<String, Result> results = tester.run();
 			
 			// ----- Stockage des logs
-			int i = 1;
 			FileManager.writeLog("", false);
-			for(Result result : results) {
-				Constants.debug("\n-------------------------------------------------------------------------------\n");
-				Constants.debug("Class"+i+" ("+ (result.wasSuccessful()?"PASSED":"FAILED")+ ") -> NbRun : " + result.getRunCount() + " NbFailure " + result.getFailureCount() + " runtime : " + (float)result.getRunTime());
+			long timestamp = 0;
+			boolean success = true;
+			Constants.debug("-------------------------------------------------------\nT E S T S\n-------------------------------------------------------\n");
+			for(String filename : results.keySet()) {
+				Result result = results.get(filename);
+				String classe =  getClassNameWhithoutPath(filename);
+				timestamp += (float)result.getRunTime();
+				success &= result.wasSuccessful();
+				Constants.debug("\n------------------------------" +  classe  + "----------------------------------------\n");
+				Constants.debug(""+ (result.wasSuccessful()?"PASSED":"FAILED")+ " -> Tests run : " + result.getRunCount() + ", Failures : " + result.getFailureCount() + ", Skipped: " + result.getIgnoreCount() + ", Time elapsed : " + (float)result.getRunTime()+" sec");
 				for(Failure fail : result.getFailures()) {
 					Constants.debug("\n--- Failure --- " + fail.getMessage() + " , " + fail.getTestHeader() + " , Exception :  " + fail.getException());
 					for(StackTraceElement trace : fail.getException().getStackTrace()) {
-						Constants.debug("\n--------Exception------- "+trace.toString() );
+						Constants.debug("\n--------Exception------- "+trace.toString());
 					}
 				}
-				i++;
 			}
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			System.out.println();
+			Constants.debug("[INFO] ------------------------------------------------------------------------");
+			Constants.debug("[INFO] BUILD " + (success?"SUCCESS":"FAILED"));
+			Constants.debug("[INFO] ------------------------------------------------------------------------");
+			Constants.debug("[INFO] Total time: "+timestamp+" s");
+			Constants.debug("[INFO] Finished at: "+dateFormat.format(date));
+
 			
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	public static String getClassNameWhithoutPath(String filename) {
+		return filename.replace("TestCase_", "").replace(".java", "").substring(filename.indexOf(Constants.tmpFolder)).replace(Constants.tmpFolder, "");
 	}
 
 }
