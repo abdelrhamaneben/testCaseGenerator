@@ -19,7 +19,7 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import exceptions.UnTestableException;
-import models.Constants;
+import utils.Constants;
 
 /**
  * 

@@ -7,9 +7,9 @@ import java.text.SimpleDateFormat;
 
 import generators.GetSrcProject;
 import generators.UnitTestGenerator;
-import models.Constants;
-import models.FileManager;
 import spoon.Launcher;
+import utils.Constants;
+import utils.FileManager;
 
 import java.util.ArrayList;
 import java.util.Date;
