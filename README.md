@@ -27,3 +27,8 @@ Verbose: enable verbose
 LogFile: specify Log filename
 
 TmpFolder: speficy temporary file
+
+
+## UML Schema :
+
+![UML](schema.jpeg)
