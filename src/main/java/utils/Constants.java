@@ -1,7 +1,11 @@
 package utils;
 
 import exceptions.UnSupportableConfig;
-
+/**
+ * 
+ * @author Abdelrhamane Benhammou
+ *
+ */
 public class Constants {
 
 	// ----------initial config properties----------

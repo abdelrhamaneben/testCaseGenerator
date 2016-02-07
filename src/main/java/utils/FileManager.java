@@ -3,6 +3,11 @@ package utils;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * 
+ * @author Abdelrhamane Benhammou
+ *
+ */
 public class FileManager {
 	
 	public static void writeLog(String str,boolean overwrite) {

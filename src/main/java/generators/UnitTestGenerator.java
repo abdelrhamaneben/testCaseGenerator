@@ -27,7 +27,8 @@ import utils.Constants;
 /**
  * @author Julia Leven
  * @author Edmond Van-overtveldt
- * @author Jérà´me Garcia
+ * @author Jérôme Garcia
+ * @author Abdelrhamane Benhammou
  */
 public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 	
@@ -216,7 +217,6 @@ public class UnitTestGenerator extends AbstractProcessor<CtClass<?>> {
 		
 		for (CtAnnotation<?> annotation : m.getAnnotations()) {
 			if (annotation.getSignature().equals("@main.TestUnit")) {
-				System.out.println( annotation.getElementValue("oracle").toString());
 				// DELETE PARAMS
 				params = annotation.getElementValue("params");
 				ArrayList<CtParameter<?>> tmpParameters = new ArrayList<CtParameter<?>>(); 

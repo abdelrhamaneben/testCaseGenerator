@@ -23,7 +23,7 @@ import utils.Constants;
 
 /**
  * 
- * @author abdelrhamanebenhammou
+ * @author Abdelrhamane Benhammou
  *
  */
 public class TestLauncher {

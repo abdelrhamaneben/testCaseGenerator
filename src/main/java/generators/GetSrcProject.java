@@ -1,6 +1,5 @@
 package generators;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +23,8 @@ import utils.Constants;
 /**
  * @author Julia Leven
  * @author Edmond Van-overtveldt
- * @author Jérà´me Garcia
+ * @author Jérôme Garcia
+ * @author Abdelrhamane Benhammou
  */
 public class GetSrcProject extends AbstractProcessor<CtClass<?>> {
 	

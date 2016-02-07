@@ -1,5 +1,4 @@
 package controlers;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -7,11 +6,9 @@ import java.text.SimpleDateFormat;
 
 import generators.GetSrcProject;
 import generators.UnitTestGenerator;
-import spoon.Launcher;
 import utils.Constants;
 import utils.FileManager;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
@@ -23,6 +20,7 @@ import org.junit.runner.notification.Failure;
  * @author Julia Leven
  * @author Edmond Van-overtveldt
  * @author Jérôme Garcia
+ * @author Abdelrhamane Benhammou
  */
 public class Main {
 
