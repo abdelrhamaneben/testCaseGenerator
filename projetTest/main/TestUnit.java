@@ -1,6 +1,8 @@
 package main;
 
+import java.lang.annotation.Repeatable;
 
+@Repeatable(TestUnits.class)
 public @interface TestUnit {
     java.lang.String given() default "";
 

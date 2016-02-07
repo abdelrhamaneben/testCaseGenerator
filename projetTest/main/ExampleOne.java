@@ -23,7 +23,8 @@ public class ExampleOne {
     public int getTwo() {
        return a + b;
     }
-
+    
+    @main.TestUnit(given = "-3,1", oracle = "-4")
     @main.TestUnit(given = "3,1", oracle = "2")
     public int soustraction() {
         return (a) - (b);
