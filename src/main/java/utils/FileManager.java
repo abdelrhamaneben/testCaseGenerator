@@ -56,20 +56,17 @@ public class FileManager {
 	
 	public static void writeUnitTestClass() {
 		FileWriter writer = null;
-		String str = Constants.classUnitTest;
+		String ClassContains1 = Constants.classUnitTest;
+		String ClassContains2 = Constants.classUnitTests;
 		try{
 		     writer = new FileWriter(Constants.classNameUnitTest, false);
-		     writer.write(str,0,str.length());
+		     writer.write(ClassContains1,0,ClassContains1.length());
+		     writer.close();
+		     writer = new FileWriter(Constants.classNameUnitTests, false);
+		     writer.write(ClassContains2,0,ClassContains2.length());
+		     writer.close();
 		}catch(IOException ex){
 		    ex.printStackTrace();
-		}finally{
-		  if(writer != null){
-		     try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		  }
 		}
 	}
 	

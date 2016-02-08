@@ -31,12 +31,14 @@ public class Constants {
 	
 	//---------- UnitTestClass----------
 	public static final String classUnitTest = "package main;public @interface TestUnit {java.lang.String given() default \"\";java.lang.String params() default \"\";java.lang.String oracle() default \"\";java.lang.String when() default \"\"; java.lang.String actual() default \"\";java.lang.String[] withMock() default { \"\" };}";
+	public static final String classUnitTests = "package main;public @interface TestUnits {TestUnit[] value();}";
 	public static final String classNameUnitTest = "TestUnit.java";
+	public static final String classNameUnitTests = "TestUnits.java";
 	
 	// ---------- MESSAGES -----------
 	
 	public static final String configMessage = "Required : junit-4.12.jar et mockito-1.8.0.jar";
-	public static final String annotationMessage = "Place this class("+classNameUnitTest+") into your project (main package)";
+	public static final String annotationMessage = "Place this class("+classNameUnitTest+" and "+classNameUnitTests+") into your project (main package)";
 	public static final String helpMessage = "Command [option]*\n\n"
 			+ "Options :\n"
 			+ " --config : generate config file\n"

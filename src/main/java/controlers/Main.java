@@ -88,24 +88,19 @@ public class Main {
 				timestamp += (float)result.getRunTime();
 				success &= result.wasSuccessful();
 				Constants.debug("\n------------------------------" +  classe  + "----------------------------------------\n");
-				Constants.debug(""+ (result.wasSuccessful()?"PASSED":"FAILED")+ " -> Tests run : " + result.getRunCount() + ", Failures : " + result.getFailureCount() + ", Skipped: " + result.getIgnoreCount() + ", Time elapsed : " + (float)result.getRunTime()+" sec");
+				Constants.debug(""+ (result.wasSuccessful()?"PASSED":"FAILED")+ " -> Tests run : " + result.getRunCount() + ", Failures : " + result.getFailureCount() + ", Time elapsed : " + (float)result.getRunTime()+" sec\n");
 				for(Failure fail : result.getFailures()) {
-					Constants.debug("\n--- Failure --- " + fail.getMessage() + " , " + fail.getTestHeader() + " , Exception :  " + fail.getException());
-					for(StackTraceElement trace : fail.getException().getStackTrace()) {
-						Constants.debug("\n--------Exception------- "+trace.toString());
-					}
+					Constants.debug("\n--- Failure --- " + fail.getMessage() + " , " + fail.getTestHeader() + " , Exception :  " + fail.getException() + "\n");
 				}
 			}
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
 			System.out.println();
-			Constants.debug("[INFO] ------------------------------------------------------------------------");
-			Constants.debug("[INFO] BUILD " + (success?"SUCCESS":"FAILED"));
-			Constants.debug("[INFO] ------------------------------------------------------------------------");
-			Constants.debug("[INFO] Total time: "+timestamp+" s");
-			Constants.debug("[INFO] Finished at: "+dateFormat.format(date));
-
-			
+			Constants.debug("[INFO] ------------------------------------------------------------------------\n");
+			Constants.debug("[INFO] BUILD " + (success?"SUCCESS":"FAILED")+ "\n");
+			Constants.debug("[INFO] ------------------------------------------------------------------------\n");
+			Constants.debug("[INFO] Total time: "+timestamp+" s\n");
+			Constants.debug("[INFO] Finished at: "+dateFormat.format(date)+"\n");
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
